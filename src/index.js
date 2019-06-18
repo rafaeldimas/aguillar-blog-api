@@ -1,6 +1,4 @@
-const dotenv = require('dotenv')
+require('dotenv').config()
+
 const Server = require('./server')
-
-dotenv.config()
-
 Server.start()

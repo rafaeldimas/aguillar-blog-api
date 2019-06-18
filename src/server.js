@@ -1,16 +1,33 @@
 const express = require('express')
 const cors = require('cors')
+const mongoose = require('mongoose')
 
+const { database, server } = require('./config')
 const routes = require('./routes')
 
 class Server {
   init () {
     this.app = express()
 
+    this.database()
     this.middleware()
     this.routes()
 
     return this
+  }
+
+  database () {
+    const auth = (database.user && database.password)
+      ? `${database.user}:${database.password}@`
+      : ''
+
+    mongoose.connect(
+      `mongodb://${auth}${database.host}:${database.port}/${database.db}`,
+      {
+        useCreateIndex: true,
+        useNewUrlParser: true
+      }
+    )
   }
 
   middleware () {
@@ -24,12 +41,12 @@ class Server {
   }
 
   start () {
-    this.app.listen(process.env.SERVER_PORT, function () {
-      console.log(`App listening on port ${process.env.SERVER_PORT}!`)
+    this.app.listen(server.port, function () {
+      console.log(`App listening on port ${server.port}!`)
     })
   }
 }
 
-const server = new Server()
+const serverInstance = new Server()
 
-module.exports = server.init()
+module.exports = serverInstance.init()
