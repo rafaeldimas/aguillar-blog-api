@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
-const { database, server } = require('./config')
+const { database, server } = require('./configs')
 const routes = require('./routes')
 
 class Server {
@@ -10,7 +10,7 @@ class Server {
     this.app = express()
 
     this.database()
-    this.middleware()
+    this.globalMiddleware()
     this.routes()
 
     return this
@@ -30,7 +30,7 @@ class Server {
     )
   }
 
-  middleware () {
+  globalMiddleware () {
     this.app.use(cors())
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))

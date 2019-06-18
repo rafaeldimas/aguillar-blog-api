@@ -13,5 +13,6 @@ router.delete('/:slug', async (req, res) => { })
 
 module.exports = {
   path: '/post',
+  middleware: ['auth'],
   router
 }
