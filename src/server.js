@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const slug = require('mongoose-slug-updater')
 
 const { database, server } = require('./configs')
 const routes = require('./routes')
@@ -28,6 +29,8 @@ class Server {
         useNewUrlParser: true
       }
     )
+
+    mongoose.plugin(slug)
   }
 
   globalMiddleware () {

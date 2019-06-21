@@ -21,6 +21,7 @@ router.post('/login', async (req, res) => {
       token: User.generateToken(user)
     })
   } catch (error) {
+    res.status(500).json({ message: 'Server error. Try later.' })
     console.log(error)
   }
 })
@@ -39,6 +40,7 @@ router.post('/register', async (req, res) => {
       token: User.generateToken(user)
     })
   } catch (error) {
+    res.status(500).json({ message: 'Server error. Try later.' })
     console.log(error)
   }
 })

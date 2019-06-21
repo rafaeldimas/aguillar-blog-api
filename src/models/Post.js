@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const slug = require('slug')
 
 const PostSchema = new mongoose.Schema({
   title: {
@@ -9,9 +8,9 @@ const PostSchema = new mongoose.Schema({
   },
   slug: {
     type: String,
-    required: true,
-    unique: true,
-    lowercase: true
+    slug: 'title',
+    lowercase: true,
+    unique: true
   },
   description: {
     type: String,
@@ -29,14 +28,6 @@ const PostSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
-})
-
-PostSchema.pre('save', function (next) {
-  if (!this.isModified('title')) {
-    return next()
-  }
-
-  this.slug = slug(this.slug, { lower: true })
 })
 
 module.exports = mongoose.model('Post', PostSchema)
