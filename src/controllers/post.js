@@ -3,7 +3,10 @@ const { Post } = require('../models')
 
 const router = express.Router()
 
-router.get('/', async (req, res) => { })
+router.get('/', async (req, res) => {
+  const postsPaginated = await Post.paginate({}, req.optionsPaginate)
+  return res.json(postsPaginated)
+})
 
 router.get('/:slug', async (req, res) => { })
 
@@ -30,6 +33,6 @@ router.delete('/:slug', async (req, res) => { })
 
 module.exports = {
   path: '/post',
-  middleware: ['auth'],
+  middleware: ['auth', 'paginate'],
   router
 }
