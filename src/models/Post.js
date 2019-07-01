@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate-v2')
+const mongooseSlugUpdater = require('mongoose-slug-updater')
 
 const PostSchema = new mongoose.Schema({
   title: {
@@ -32,5 +33,6 @@ const PostSchema = new mongoose.Schema({
 })
 
 PostSchema.plugin(mongoosePaginate)
+PostSchema.plugin(mongooseSlugUpdater)
 
 module.exports = mongoose.model('Post', PostSchema)
