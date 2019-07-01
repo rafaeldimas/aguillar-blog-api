@@ -25,7 +25,8 @@ class Server {
       `mongodb://${auth}${database.host}:${database.port}/${database.db}`,
       {
         useCreateIndex: true,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useFindAndModify: false
       }
     )
   }
