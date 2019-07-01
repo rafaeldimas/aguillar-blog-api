@@ -56,7 +56,9 @@ router.put('/:slug', async (req, res) => {
   }
 
   try {
-    const post = await Post.findOneAndUpdate({ slug }, { title, description, body })
+    const post = await Post.findOneAndUpdate({ slug }, { title, description, body }, {
+      new: true
+    })
 
     return res.json({ post })
   } catch (error) {
