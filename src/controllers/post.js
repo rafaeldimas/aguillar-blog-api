@@ -12,6 +12,10 @@ router.get('/', async (req, res) => {
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params
 
+  if (!slug) {
+    res.status(410).json({ message: 'Slug required.' })
+  }
+
   try {
     const post = await Post.findOne({ slug })
 
@@ -39,7 +43,27 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:slug', async (req, res) => { })
+router.put('/:slug', async (req, res) => {
+  const { slug } = req.params
+  const { title, description, body } = req.body
+
+  if (!slug) {
+    res.status(410).json({ message: 'Slug required.' })
+  }
+
+  if (!title || !description || !body) {
+    res.status(410).json({ message: 'Title, Description and Body required.' })
+  }
+
+  try {
+    const post = await Post.findOneAndUpdate({ slug }, { title, description, body })
+
+    return res.json({ post })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Try later.' })
+    console.log(error)
+  }
+})
 
 router.delete('/:slug', async (req, res) => { })
 
