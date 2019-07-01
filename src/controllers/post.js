@@ -5,10 +5,22 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
   const postsPaginated = await Post.paginate({}, req.optionsPaginate)
+
   return res.json(postsPaginated)
 })
 
-router.get('/:slug', async (req, res) => { })
+router.get('/:slug', async (req, res) => {
+  const { slug } = req.params
+
+  try {
+    const post = await Post.findOne({ slug })
+
+    return res.json({ post })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Try later.' })
+    console.log(error)
+  }
+})
 
 router.post('/', async (req, res) => {
   const { title, description, body } = req.body
