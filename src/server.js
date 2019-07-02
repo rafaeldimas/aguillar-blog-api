@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
-const { database, server } = require('./configs')
+const { database, server, upload } = require('./configs')
 const routes = require('./routes')
 
 class Server {
@@ -35,6 +35,7 @@ class Server {
     this.app.use(cors())
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
+    this.app.use('/files', express.static(upload.publicStorage))
   }
 
   routes () {
