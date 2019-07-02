@@ -2,8 +2,10 @@ const multer = require('multer')
 const { upload } = require('../configs')
 const storages = require('../storages')
 
+const { storage } = storages[upload.storage] || {}
+
 const multerConfig = {
-  storage: storages[upload.storage],
+  storage: storage,
   limits: {
     fileSize: upload.limitSize * 1024 * 1024
   },

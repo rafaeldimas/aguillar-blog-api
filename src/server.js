@@ -35,7 +35,7 @@ class Server {
     this.app.use(cors())
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
-    this.app.use('/files', express.static(upload.publicStorage))
+    this.app.use(upload.publicStaticFiles, express.static(upload.publicStorage))
   }
 
   routes () {
