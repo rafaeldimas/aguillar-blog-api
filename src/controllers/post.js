@@ -67,7 +67,22 @@ router.put('/:slug', async (req, res) => {
   }
 })
 
-router.delete('/:slug', async (req, res) => { })
+router.delete('/:slug', async (req, res) => {
+  const { slug } = req.params
+
+  if (!slug) {
+    res.status(410).json({ message: 'Slug required.' })
+  }
+
+  try {
+    await Post.findOneAndDelete({ slug })
+
+    return res.json({ message: 'Post deleted.' })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Try later.' })
+    console.log(error)
+  }
+})
 
 module.exports = {
   path: '/post',
