@@ -27,7 +27,7 @@ const FileSchema = new mongoose.Schema({
   }
 })
 
-FileSchema.post('remove', async function (doc) {
+FileSchema.post('findOneAndDelete', async function (doc, next) {
   const { destroy } = storages[doc.storage] || storages[upload.storage]
   await destroy(doc.name)
 })

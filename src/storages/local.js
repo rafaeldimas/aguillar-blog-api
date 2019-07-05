@@ -2,8 +2,7 @@ const multer = require('multer')
 const crypto = require('crypto')
 const path = require('path')
 
-const { unlink } = require('fs')
-const { promisify } = require('util')
+const { unlink } = require('fs').promises
 
 const { upload } = require('../configs')
 
@@ -21,7 +20,7 @@ const storage = multer.diskStorage({
 const destroy = async (fileName) => {
   const pathFileName = path.resolve(upload.publicStorage, fileName)
 
-  await promisify(unlink)(pathFileName)
+  await unlink(pathFileName)
 }
 
 const makeUri = (fileName) => {

@@ -26,7 +26,20 @@ router.post('/', upload.single('file'), async (req, res) => {
 })
 
 router.delete('/:name', async (req, res) => {
-  //
+  const { name } = req.params
+
+  if (!name) {
+    res.status(410).json({ message: 'Name required.' })
+  }
+
+  try {
+    await File.findOneAndDelete({ name })
+
+    return res.json({ message: 'Post deleted.' })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error. Try later.' })
+    console.log(error)
+  }
 })
 
 module.exports = {
