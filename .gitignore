@@ -219,3 +219,7 @@ GitHub.sublime-settings
 .history
 
 # End of https://www.gitignore.io/api/node,sublimetext,jetbrains+all,visualstudiocode
+
+/public/storage/*
+
+!.gitkeep

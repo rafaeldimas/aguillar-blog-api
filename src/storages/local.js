@@ -1,5 +1,7 @@
 const multer = require('multer')
+const crypto = require('crypto')
 const path = require('path')
+
 const { unlink } = require('fs')
 const { promisify } = require('util')
 
@@ -8,6 +10,11 @@ const { upload } = require('../configs')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, upload.publicStorage)
+  },
+  filename: (req, file, cb) => {
+    const fileName = crypto.randomBytes(18).toString('hex')
+    const fileExt = path.extname(file.originalname)
+    cb(null, `${fileName}${fileExt}`)
   }
 })
 
