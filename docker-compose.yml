@@ -1,0 +1,43 @@
+version: "2"
+
+volumes:
+  aguillar-blog-api-mongodb-data:
+    driver: local
+
+services:
+  mongo:
+    image: mongo
+    container_name: aguillar-blog-api-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: aguillar-blog-api
+      MONGO_INITDB_ROOT_PASSWORD: aguillar-blog-api
+    volumes:
+      - aguillar-blog-api-mongodb-data:/data/db
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: mongo-express
+    container_name: aguillar-blog-api-mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: aguillar-blog-api
+      ME_CONFIG_MONGODB_ADMINPASSWORD: aguillar-blog-api
+
+  api:
+    image: node:lts-alpine
+    container_name: aguillar-blog-api
+    user: node
+    working_dir: /home/node/api
+    environment:
+      NODE_ENV: production
+    volumes:
+      - .:/home/node/api
+    ports:
+      - 3000:3000
+    command: yarn start
+    links:
+      - mongo
