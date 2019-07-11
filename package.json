@@ -6,8 +6,8 @@
   "author": "Rafael Dimas <rafael.dimas@live.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/index.js",
-    "start-production": "node src/index.js"
+    "start": "NODE_ENV=production node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
