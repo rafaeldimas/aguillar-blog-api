@@ -6,6 +6,12 @@ const { upload } = require('../middleware')
 
 const { File } = require('../models')
 
+router.get('/', async (req, res) => {
+  const filesPaginated = await File.paginate({}, req.optionsPaginate)
+
+  return res.json(filesPaginated)
+})
+
 router.post('/', upload.single('file'), async (req, res) => {
   const { filename: name } = req.file
   const { description } = req.body
@@ -18,7 +24,7 @@ router.post('/', upload.single('file'), async (req, res) => {
   try {
     const file = await File.create({ name, description, storage })
 
-    return res.json({ file, uri: file.uri() })
+    return res.json({ file })
   } catch (error) {
     res.status(500).json({ message: 'Server error. Try later.' })
     console.log(error)
@@ -44,6 +50,6 @@ router.delete('/:name', async (req, res) => {
 
 module.exports = {
   path: '/file',
-  middleware: ['auth'],
+  middleware: ['auth', 'paginate'],
   router
 }
